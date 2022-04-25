@@ -173,18 +173,7 @@ class AdminMainController extends Controller
             ->where('binaNo', $binaNo)
             ->where('daireNo', $daireNo)
             ->first();
-//        $userSehirId=Address::select([
-//            "ilce"=>$ilce,
-//            "cadde"=>$cadde,
-//            "mahalle"=>$mahalle,
-//            "sokak"=>$sokak,
-//            "binaNo"=>$binaNo,
-//            "daireNo"=>$daireNo,
-//
-//        ])->first();
-//      $userSehirId=Address::where("sehirId",$sehirid)->where("ilce",$ilce)->where("cadde",$cadde)->where("mahalle",$mahalle)->where("sokak",$sokak)->where("binaNo",$binaNo)->where("daireNo",$daireNo);
-//    $userSehirId=Address::where("sehirId",$sehirid['plakaKodu'] and "ilce",$ilce and "cadde",$cadde and "mahalle", $mahalle and"sokak",$sokak and "binaNo" ,$binaNo and "daireNo",$daireNo)->first();
-//     $userSehirId=DB::select('select * from adresler where sehirId=:sehirId and ilce=:ilce and cadde=:cadde and mahalle=:mahalle and sokak=:sokak and binaNo=:binaNo and daireNo=:daireNo',['sehirId' => $sehirid,'ilce' => $ilce, 'cadde' => $cadde,'mahalle'=>$mahalle,"sokak"=>$sokak,"binaNo"=>$binaNo,"daireNo"=>$daireNo])->get();
+
         $usersehir = $userSehirId->id;
         $userUpdate = Users::where("id", $id)->update(array(
 
@@ -199,8 +188,6 @@ class AdminMainController extends Controller
 
         ));
 
-
-//        $adresId = DB::update('update kullanicilar set adresId = :adresId where id = :id',['adresId'=>$usersehir,'id'=>$id]);
 
         $data['title'] = "Kullanıcı Bilgileri Görüntüleme";
         $data['users'] = Users::get();
@@ -251,12 +238,11 @@ class AdminMainController extends Controller
         return view('admin.itemDetail', $data);
     }
 
-    public function itemUpdate()
-
+    public function itemUpdate(Request $request)
     {
-
+        $id=$request->hiddenid;
         $data['title'] = "Ürün Güncelleme";
-        $data['products'] = Products::get();
+        $data['products'] = Products::where("id", $id)->first();
         $data['productsmodel'] = ProductsModel::get();
         $data['productsmodelbrand'] = ProductsModelBrand::get();
 
@@ -313,10 +299,58 @@ class AdminMainController extends Controller
                 }
             }
         }
+        else  {
+            $modelid = ProductsModel::where("isim", $model)->first();
+
+            $productsUpdate = Products::where("id", $id)->update(array(
+
+                "ad" => $ad,
+                "fiyat" => $fiyat,
+                "model" => $modelid['id'],
+                "stokAdet" => $stok,
+
+                "aciklama" => $aciklama,
+
+            ));
+
+        }
 
 
 
 
+        $data['title'] = 'Ürün Detayları';
+        $data['products'] = Products::get();
+        $data['productsmodel'] = ProductsModel::get();
+        $data['productsmodelbrand'] = ProductsModelBrand::get();
+
+        return view('admin.itemDetail', $data);
+
+    }
+
+    public function itemaktifyap(Request $request)
+    {
+        $id = $request->hiddenid;
+        $itemActive = Products::where("id", $id)->update(array(
+            'aktif' => 1,
+
+        ));
+        $data['title'] = 'Ürün Detayları';
+        $data['products'] = Products::get();
+        $data['productsmodel'] = ProductsModel::get();
+        $data['productsmodelbrand'] = ProductsModelBrand::get();
+
+        return view('admin.itemDetail', $data);
+
+
+    }
+
+    public function itempasifyap(Request $request)
+    {
+        $id = $request->hiddenid;
+        $itemActive = Products::where("id", $id)->update(array(
+            'aktif' => 0,
+
+        ));
         $data['title'] = 'Ürün Detayları';
         $data['products'] = Products::get();
         $data['productsmodel'] = ProductsModel::get();

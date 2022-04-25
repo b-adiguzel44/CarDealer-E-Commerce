@@ -218,6 +218,7 @@
                     </tr>
                     </thead>
                     <tbody class="align-middle">
+
                     <tr>
                         <form enctype="multipart/form-data" action="{{route('itemAdd')}}" method="post">
                             @csrf
@@ -227,7 +228,7 @@
                             <td class="align-middle">
                                 <select name="markalar">
                                     @foreach($productsmodelbrand as $item)
-                                        <option value="{{$item['isim']}}" >{{$item['isim']}}</option>
+                                        <option value="{{$item['isim']}}">{{$item['isim']}}</option>
 
                                     @endforeach
                                 </select></td>
@@ -238,10 +239,14 @@
 
                                     @endforeach
                                 </select></td>
-                            <td class="align-middle"><input type="text" name="stokAdet" placeholder="Stok Adetini Giriniz"></td>
-                            <td class="align-middle"><textarea name="aciklama"  cols="30" rows="10" placeholder="Ürün Açıklamasını Giriniz"></textarea></td>
+                            <td class="align-middle"><input type="text" name="stokAdet"
+                                                            placeholder="Stok Adetini Giriniz"></td>
+                            <td class="align-middle"><textarea name="aciklama" cols="30" rows="10"
+                                                               placeholder="Ürün Açıklamasını Giriniz"></textarea></td>
                             <td class="align-middle">
-                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i> Ürün Ekle</button>
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i>
+                                    Ürün Ekle
+                                </button>
                             </td>
                         </form>
                     </tr>

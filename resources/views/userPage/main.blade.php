@@ -10,7 +10,7 @@
 
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
+                <a href="{{route('users')}}" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold">Araç Satış</h1>
 
                 </a>
@@ -28,10 +28,24 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
+
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                       style="width: 50%;float: right;">Ayarlar</a>
+                    <div class="dropdown-menu rounded-0 m-0" style="right: 0px; width: 50%;">
+                        <a href="" class="{{route('users')}}" style="display: block;padding: 0.25rem 1.5rem;
+                            clear: both; font-weight: 400; color: #212529; text-align: inherit;
+                            white-space: nowrap;background-color: transparent; border: 0;">Anasayfa</a>
+                        <a href="{{route('usersDetail')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
+                            clear: both; font-weight: 400; color: #212529; text-align: inherit;
+                            white-space: nowrap;background-color: transparent; border: 0;">Profil Bilgileri</a>
+                        <a href="{{route('logout')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
+                            clear: both; font-weight: 400; color: #8b3a3a; text-align: inherit;
+                            white-space: nowrap;background-color: transparent; border: 0;">Çıkış Yap</a>
+                    </div>
+
+                </div>
                 <a href="" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">0</span>
@@ -50,32 +64,49 @@
         <div class="row px-xl-5 pb-3">
             @foreach($products as $item)
                 @php
-                    $urun = \App\Models\Users::where("id", $item['id'])->first();
 
-                        @endphp
+                    $urun = \App\Models\Users::where("id", $item['id'])->first();
+                    if ($item['aktif']==1){
+                echo'
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="{{$item['resimUrl']}}" alt="">
+                            <img class="img-fluid w-100" src="'.$item['resimUrl'].'" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">{{$item['ad']}}</h6>
+                            <h6 class="text-truncate mb-3">'.$item['ad'].'</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>{{$item['fiyat']}}₺</h6>
-{{--                                <h6 class="text-muted ml-2">--}}
-{{--                                    <del>$123.00</del>--}}
-{{--                                </h6>--}}
+                                <h6>'.$item['fiyat'].'₺</h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Detayları Gör</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i
-                                        class="fas fa-shopping-cart text-primary mr-1"></i>Sepete Ekle</a>
+
+                            <form action="'.route('itemCarDetail').'" method="get">
+                            <input name="hiddenid" type="hidden" value="'.$item['id'].'">
+
+                            <button class="btn btn-sm text-dark p-0">
+                            <i class="fas fa-eye text-primary mr-1"></i>Detayları Gör
+
+                            </button>
+                            </form>
+                            <form action="sepete ekle route gelcek" method="get">
+                            <input name="hiddenid" type="hidden" value="'.$item['id'].'">
+
+                            <button class="btn btn-sm text-dark p-0">
+                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Sepete Ekle
+
+                            </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
+                ';}
+                @endphp
             @endforeach
+
         </div>
+
     </div>
     <!-- Products End -->
 

@@ -39,6 +39,8 @@ Route::prefix('admin')->middleware('admincontrol')->group(function () {
     Route::post('/itemUpgrade', [\App\Http\Controllers\AdminMainController::class, 'itemUpgrade'])->name('itemUpgrade');
     Route::post('/itemAdd', [\App\Http\Controllers\AdminMainController::class, 'itemAdd'])->name('itemAdd');
     Route::get('/itemDelete', [\App\Http\Controllers\AdminMainController::class, 'itemDelete'])->name('itemDelete');
+    Route::get('/itemaktifyap', [\App\Http\Controllers\AdminMainController::class, 'itemaktifyap'])->name('itemaktifyap');
+    Route::get('/itempasifyap', [\App\Http\Controllers\AdminMainController::class, 'itempasifyap'])->name('itempasifyap');
 
 
 
@@ -46,6 +48,11 @@ Route::prefix('admin')->middleware('admincontrol')->group(function () {
 });
 Route::prefix('users')->middleware('users')->group(function () {
     Route::get('/', [\App\Http\Controllers\UsersMainController::class, 'usersMain'])->name('users');
+    Route::get('/itemCarDetail', [\App\Http\Controllers\UsersMainController::class, 'itemCarDetail'])->name('itemCarDetail');
+    Route::get('/usersDetail', [\App\Http\Controllers\UsersMainController::class, 'usersDetail'])->name('usersDetail');
+    Route::get('/usersUpdate', [\App\Http\Controllers\UsersMainController::class, 'usersUpdate'])->name('usersUpdate');
+    Route::post('/usersUpgrade', [\App\Http\Controllers\UsersMainController::class, 'usersUpgrade'])->name('usersUpgrade');
+
 
 
 

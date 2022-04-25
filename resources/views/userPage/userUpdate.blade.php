@@ -35,33 +35,21 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                {{--            <a href="" class="btn border">--}}
-                {{--                <i class="fas fa-heart text-primary"></i>--}}
-                {{--                <span class="badge">0</span>--}}
-                {{--            </a>--}}
-                {{--            <a href="" class="btn border">--}}
-                {{--                <i class="fas fa-shopping-cart text-primary"></i>--}}
-                {{--                <span class="badge">0</span>--}}
-                {{--            </a>--}}
 
                 <div class="navbar-nav mr-auto py-0">
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" style="width: 50%;float: right;">Ayarlar</a>
                         <div class="dropdown-menu rounded-0 m-0" style="right: 0px; width: 50%;">
-                            <a href="{{route('admin')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
+                            <a href="{{route('users')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
                             clear: both; font-weight: 400; color: #212529; text-align: inherit;
                             white-space: nowrap;background-color: transparent; border: 0;">Anasayfa</a>
-                            <a href="{{route('admindetail')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
+                            <a href="{{route('usersDetail')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
                             clear: both; font-weight: 400; color: #212529; text-align: inherit;
                             white-space: nowrap;background-color: transparent; border: 0;">Profil Bilgileri</a>
-                            <a href="{{route('userdetail')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
-                            clear: both; font-weight: 400; color: #212529; text-align: inherit;
-                            white-space: nowrap;background-color: transparent; border: 0;">Kullanıcı Profilleri</a>
 
-                            <a href="{{route('itemDetail')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
-                            clear: both; font-weight: 400; color: #212529; text-align: inherit;
-                            white-space: nowrap;background-color: transparent; border: 0;">Ürün Ekle</a>
+
+
                             <a href="{{route('logout')}}" class="" style="display: block;padding: 0.25rem 1.5rem;
                             clear: both; font-weight: 400; color: #8b3a3a; text-align: inherit;
                             white-space: nowrap;background-color: transparent; border: 0;">Çıkış Yap</a>
@@ -97,30 +85,70 @@
                 <br/>
                 <br/>
 
-                <form action="{{route('adminUpgrade')}}" style="width: 100%" method="post">
+                <form action="{{route('usersUpgrade')}}" style="width: 100%" method="post">
                     @csrf
                     <div class="border mb-4 flexColumn" >
 
-                        <ul class="list-group flexColumnUl" >
-
+                        <ul class="list-group flexColumnUl">
                             <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Adı:</strong>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ad" value="{{$yonetici['ad']}}">  </li>
-                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Soyadı:</strong> &nbsp;
-                                <input type="text" name="soyad"  value="{{$yonetici['soyad']}}"> </li>
+                                <input type="text" name="isim" value="{{$kullanici['isim']}}"> </li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Soyadı:</strong>
+                                <input type="text" name="soyisim" value="{{$kullanici['soyisim']}}"> </li>
                         </ul>
-                        <ul class="list-group flexColumnUl" >
-                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Tc No:</strong> &nbsp;&nbsp;
-                                <input type="text" name="tcno" value="{{$yonetici['tcNo']}}"> </li>
-                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">E Mail:</strong> &nbsp;&nbsp;
-                                <input type="text" name="email"  value="{{$yonetici['eMail']}} " disabled></li>
+                        <ul class="list-group flexColumnUl">
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Tc No:</strong>
+                                <input type="text" name="tcno" value="{{$kullanici['tcNo']}}"> </li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">E Mail:</strong>
+                                <input type="email" name="eMail" value="{{$kullanici['eMail']}}"></li>
 
                         </ul>
+                        <ul class="list-group flexColumnUl">
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
+                                        class="text-dark">Telefon:</strong> <input type="text" name="telefon" value="{{$kullanici['telefon']}} "> </li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Doğum
+                                    Tarihi:</strong> <input type="date" name="dogumTarihi" value="{{$kullanici['dogumTarihi']}}"></li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Şifre: </strong> <input type="password" name="pass"
+                                                                                                                               ></li>
 
 
+                        </ul>
+                        <ul class="list-group flexColumnUl">
 
-                    </div>
-                    <div style="width:100%;">
-                        {{--                        <a href="" class="" >Kaydet</a>--}}
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Adres:</strong>
+                                &nbsp;@php
+
+                                    if ($kullanici['adresId']!=null){
+                                        $address = \App\Models\Address::where("id",$kullanici['adresId'])->first();
+                                        $city = \App\Models\City::where("plakaKodu",$address['sehirId'])->first();
+                                    echo "<br/><input type='text' name='mahalle' value='{$address['mahalle']} '  placeholder='Mahalle Giriniz'>
+                                      <input type='text' name='cadde' value='{$address['cadde']} ' placeholder='Cadde Giriniz' required>
+                                      <input type='text' name='sokak' value='{$address['sokak']} ' placeholder='Sokak Giriniz' required>
+                                      <input type='text' name='binaNo' value='{$address['binaNo']} ' placeholder='Bina No Giriniz' required>
+                                      <input type='text' name='daireNo' value='{$address['daireNo']} ' placeholder='Daire No Giriniz' required>
+                                      <input type='text' name='ilce' value='{$address['ilce']} ' placeholder='İlçe Giriniz' required>";
+                                } else{
+                                        echo "<br/><input type='text' name='mahalle'  placeholder='Mahalle Giriniz' required>
+                                      <input type='text' name='cadde' placeholder='Cadde Giriniz' required>
+                                      <input type='text' name='sokak' placeholder='Sokak Giriniz' required>
+                                      <input type='text' name='binaNo'  placeholder='Bina No Giriniz' required>
+                                      <input type='text' name='daireNo'  placeholder='Daire No Giriniz' required>
+                                      <input type='text' name='ilce' placeholder='İlçe Giriniz' required>";
+                                        }
+
+                                @endphp
+                                <select name="sehirler">
+                                    @foreach($sehirler as $item)
+                                        <option value="{{$item['isim']}}" {{$address!="" ? $item['plakaKodu'] == $address['sehirId']  ? 'selected' : '':''}}>{{$item['isim']}}</option>
+
+                                    @endforeach
+                                </select>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                        class="text-dark">Sipraişler: </strong> siperişlerr
+                            </li>
+
+                        </ul>
+                        <input type="hidden" name="hiddenid" value="{{$kullanici['id']}}">
                         <input type="submit" value="Kaydet" class="btn btn-light py-2 px-3" style="float:right; background-color: #D19C97;">
                     </div>
 

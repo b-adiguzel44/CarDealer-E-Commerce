@@ -219,67 +219,65 @@
 
                     </thead>
                     <tbody class="align-middle">
-                    @foreach($products as $item)
-                        @php
 
-                                $products = \App\Models\Products::where("id", $item['id'])->first();
-                                $productsModel=\App\Models\ProductsModel::where("id", $products['model'])->first();
-                                $productsModelBrand=\App\Models\ProductsModelBrand::where("id", $productsModel['marka'])->first();
-
-                        @endphp
-                        <tr>
-                            <form enctype="multipart/form-data" action="{{route('itemUpgrade')}}" method="post">
-                                @csrf
-                                <td class="align-middle"><img  src="{{asset($item['resimUrl'])}}"
-                                                              style="width: 50px;">
-                                    <input type="file" name="resim"></td>
-                                <td class="align-middle"><input type="text" name="ad" value="{{$item['ad']}}"></td>
-                                <td class="align-middle"><input type="text" name="fiyat" value="{{$item['fiyat']}}"></td>
-                                <td class="align-middle">
-                                    <select name="markalar">
-                                        @foreach($productsmodelbrand as $item)
-                                            <option value="{{$item['isim']}}" {{$item['id'] == $productsModel['marka']  ? 'selected' : ''}}>{{$item['isim']}}</option>
-
-                                        @endforeach
-                                    </select>
-
-                                </td>
-                                <td class="align-middle">
-                                    <select name="modeller">
-                                        @foreach($productsmodel as $item)
-                                            <option value="{{$item['isim']}}" {{$item['marka'] == $productsModelBrand['id']  ? 'selected' : ''}}>{{$item['isim']}}</option>
-
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="align-middle"><input type="text" name="stok"
-                                                                value="{{$products['stokAdet']}}"></td>
-                                <td class="align-middle"><textarea name="aciklama"  cols="30"
-                                                                   rows="10">{{$products['aciklama']}}</textarea></td>
-                                <td class="align-middle">
-                                    <input type="hidden" name="hiddenid" value="{{$products['id']}}">
-                                    <button type="submit" class="btn btn-sm btn-primary"><i
-                                                class="fa-solid fa-wrench"></i>Kaydet
-                                    </button>
-
-                            </form>
-                            @php
-                                $id=$products['id'];
-                                if ($products['aktif']==1){
-                                echo '<form action="" method="get">
-                                <input  type="hidden" name="hiddenid" value="'.$id.'">';
-                                echo '<br/><button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-wrench"></i>Pasif Yap</button>';
-                                echo'</form>';}
-                                 else if ($products['aktif']==0){
-                                      echo '<form action="" method="get">
-                                      <input type="hidden" name="hiddenid" value="'.$id.'">';
-                                     echo '<br/><button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-wrench"></i>Aktif Yap</button>';
-                                     echo'</form>';
-                                     }
+                    @php
+                        $productsModel=\App\Models\ProductsModel::where("id", $products['model'])->first();
+                        $productsModelBrand=\App\Models\ProductsModelBrand::where("id", $productsModel['marka'])->first();
                             @endphp
+                    <tr>
+                        <form enctype="multipart/form-data" action="{{route('itemUpgrade')}}" method="post">
+                            @csrf
+                            <td class="align-middle"><img src="{{asset($products['resimUrl'])}}"
+                                                          style="width: 50px;">
+                                <input type="file" name="resim"></td>
+                            <td class="align-middle"><input type="text" name="ad" value="{{$products['ad']}}"></td>
+                            <td class="align-middle"><input type="text" name="fiyat" value="{{$products['fiyat']}}">
                             </td>
-                        </tr>
-                    @endforeach
+                            <td class="align-middle">
+                                <select name="markalar">
+                                    @foreach($productsmodelbrand as $item)
+                                        <option value="{{$item['isim']}}" {{$item['id'] == $productsModel['marka']  ? 'selected' : ''}}>{{$item['isim']}}</option>
+
+                                    @endforeach
+                                </select>
+
+                            </td>
+                            <td class="align-middle">
+                                <select name="modeller">
+                                    @foreach($productsmodel as $item)
+                                        <option value="{{$item['isim']}}" {{$item['marka'] == $productsModelBrand['id']  ? 'selected' : ''}}>{{$item['isim']}}</option>
+
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="align-middle"><input type="text" name="stok"
+                                                            value="{{$products['stokAdet']}}"></td>
+                            <td class="align-middle"><textarea name="aciklama" cols="30"
+                                                               rows="10">{{$products['aciklama']}}</textarea></td>
+                            <td class="align-middle">
+                                <input type="hidden" name="hiddenid" value="{{$products['id']}}">
+                                <button type="submit" class="btn btn-sm btn-primary"><i
+                                            class="fa-solid fa-wrench"></i>Kaydet
+                                </button>
+
+                        </form>
+                        @php
+                            $id=$products['id'];
+                            if ($products['aktif']==1){
+                            echo '<form action="'.route('itempasifyap').'" method="get">
+                            <input  type="hidden" name="hiddenid" value="'.$id.'">';
+                            echo '<br/><button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-wrench"></i>Pasif Yap</button>';
+                            echo'</form>';}
+                             else if ($products['aktif']==0){
+                                  echo '<form action="'.route('itemaktifyap').'" method="get">
+                                  <input type="hidden" name="hiddenid" value="'.$id.'">';
+                                 echo '<br/><button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-wrench"></i>Aktif Yap</button>';
+                                 echo'</form>';
+                                 }
+                        @endphp
+                        </td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>
